@@ -10,4 +10,8 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require react
+//= require react_ujs
+//= require react_router.min
+//= require components
 //= require_tree .
