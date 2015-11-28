@@ -9,9 +9,12 @@
 //
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
-//
+//= require jquery
+//= require jquery_ujs
 //= require react
 //= require react_ujs
 //= require react_router.min
+//= require pdfmake.min
+//= require vfs_fonts
 //= require components
 //= require_tree .

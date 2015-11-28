@@ -1,12 +1,12 @@
 (function(root) {
   Form = React.createClass({
-    mixins: [React.addons.LinkedStateMixin],
+    mixins: [React.addons.LinkedStateMixin, ReactRouter.History],
     getInitialState: function(){
       return {
         name: null,
         date: null,
         invoiceId: null,
-        lineItems: [{}],
+        lineItems: [{}]
         // * Line Item: Select from autosearch/create new
         // * Name:
         // * Quantity: prefilled "1" but editable
@@ -15,13 +15,34 @@
     },
 
     handleSubmit: function(e) {
-      debugger;
       e.preventDefault();
+      if(this.isValid()){
+        debugger;
+        console.log("Submit should make a POST request to server to persist data")
+        console.log(this.state)
+        this.state.lineItems.map(function(item){console.log(item)})
+        Store.addInvoice(this.state);
+        Store.addListItem(this.state.lineItems);
+        this.history.pushState(null,"/")
+      }else{
+        this.errors = "Fill out all values.";
+        this.forceUpdate();
+      }
+    },
+
+    isValid: function(){
+      return this.state.name !==null && this.state.date !== null &&
+        this.state.invoiceId !== null &&
+        this.state.lineItems[0].name !== undefined
     },
 
     render: function(){
+      var errorMessage = this.errors ?
+        <div className="alert alert-danger"
+        role="alert">{this.errors}</div> : null
       return(
-      <div className="col-xs-offset-1 col-md-offset-2 col-sm-10 col-md-8 col-lg-10">
+      <div className="col-xs-offset-1 col-md-offset-2 col-sm-10 col-md-8">
+        {errorMessage}
         <form className="form-horizontal" onSubmit={this.handleSubmit}>
           <div className="form-group">
            <label htmlFor="Name">Customer Name</label>
@@ -41,7 +62,10 @@
                   valueLink={this.linkState("invoiceId")}>
            </input>
          </div>
-         <FormList object={this.state.lineItems}></FormList>
+         <div className="form-group">
+           <label>Line Items</label>
+           <FormList object={this.state.lineItems}></FormList>
+         </div>
          <div className="form-group">
            <input type="submit"></input>
           </div>

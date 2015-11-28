@@ -2,51 +2,76 @@
   'use strict';
   root.FormList = React.createClass({
     getInitialState: function () {
-      return {listCount: 1};
+      return {listCount: 1, items: Store.allItems()};
     },
 
     handleItemChange: function (e) {
-      // make a dropdown of matching options.
-      this.props.object[parseInt(e.target.dataset.id)].item = e.target.value
+      var listNum = parseInt(e.target.dataset.id)
+      this.props.object[listNum] = Store.findItem(e.target.value)
+      this.forceUpdate();
+    },
+
+    handleQuantityChange: function (e) {
+      this.props.object[parseInt(e.target.dataset.id)].quantity = e.target.value
+      this.forceUpdate();
+    },
+
+    handlePriceChange: function (e) {
+      this.props.object[parseInt(e.target.dataset.id)].price = e.target.value.toFixed(2)
       this.forceUpdate();
     },
 
     addListItem: function (e) {
       e.preventDefault();
-      // quantity = 1?
       this.props.object[this.state.listCount] = {};
       this.setState({listCount: this.state.listCount + 1})
     },
+
+    // put this back when I get the styling to work.
+    // componentDidUpdate: function(){
+    //   $("select.combobox").combobox();
+    // },
+    //
+    // componentDidMount: function(){
+    //   // ensure Store is updated with current list of lineItems--not needed for mockup
+    //   // APIUtil.fetchItems();
+    //   $("select.combobox").combobox();
+    // },
 
     render: function () {
       // * Line Item: Select from autosearch/create new
       // * Name:
       // * Quantity: prefilled "1" but editable
       // * Price: Prefilled but editable
-      var list = []
+      var list = [];
+      var dropdownList = this.state.items.map(function(item){
+        return <option key={item.name}>{item.name}</option>
+      })
       for (var i = 0; i < this.state.listCount; i++) {
             // not text, dropdown. --combobox:text, typing opens drowdown
             // with autocomplete, button also opens dropdown
         list.push(
           <div className="form-control" key={"lineItem"+i}>
-            <label htmlFor="item">item</label>
-            <input type="text" id="item" data-id={i}
-                   onChange={this.handleItemChange}
-                   value={this.props.object[i].item}>
-            </input>
-            <label htmlFor="Quantity">Quantity</label>
+            <select data-id={i} id={"item"} className="combobox"
+              onChange={this.handleItemChange}
+              value={this.props.object[i].item}>
+              {dropdownList}
+            </select>
+            <label>Qty.</label>
             <input type="text" id="Quantity" data-id={i}
-                   onChange={this.handleQuantityChange}>
+                   onChange={this.handleQuantityChange}
+                   value={this.props.object[i].quantity}>
             </input>
-            <label htmlFor="Price">Price</label>
+            <label>Price</label>
             <input type="text" id="Price" data-id={i}
-                   onChange={this.handlePriceChange}>
+                   onChange={this.handlePriceChange}
+                   value={this.props.object[i].price}>
             </input>
           </div>
         )
       }
       return (
-        <div>
+        <div >
           {list}
           <button className="form-control"
             onClick={this.addListItem}>Add a Line Item</button>

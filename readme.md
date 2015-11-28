@@ -36,3 +36,19 @@
 ### Gems/Libraries
   * Puma
   _PDF builder_
+
+
+  1. create itemStore, have formList pull from it
+    a. So would formList check if an item is in Store when it submits?
+    and if not, make a new request to add the item? Or is that handled by
+    server, which then sends an updated list to the itemStore.
+  2. handleChange methods for all 3 items.
+    a. 2 are copy/paste, then item needs to implement autocomplete dropdown
+    of itemStore.all().select(matches item)
+    --wait. state is list that matches, so clicking the button can set
+    dropdown revealed to true, and list to whole list.
+    if set is empty, put a message _in italics ideally_
+  3.  handleSubmit: console.log("this would save it")
+      invoiceStore.add data
+      // check validity first
+  4. pdfCreator.
