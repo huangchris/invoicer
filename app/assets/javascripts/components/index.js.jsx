@@ -46,6 +46,7 @@
         <div className="list-group">
           {invoices}
         </div>
+        <a href="#/new">Create a new Invoice</a>
       </div>
     }
   })
