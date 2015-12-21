@@ -24,19 +24,19 @@
     addListItem: function (e) {
       e.preventDefault();
       this.props.object[this.state.listCount] = {};
-      this.setState({listCount: this.state.listCount + 1})
+      this.setState({listCount: this.state.listCount + 1});
     },
 
     // put this back when I get the styling to work.
-    // componentDidUpdate: function(){
-    //   $("select.combobox").combobox();
-    // },
-    //
-    // componentDidMount: function(){
-    //   // ensure Store is updated with current list of lineItems--not needed for mockup
-    //   // APIUtil.fetchItems();
-    //   $("select.combobox").combobox();
-    // },
+    componentDidUpdate: function(){
+      $("select.combobox").combobox();
+    },
+
+    componentDidMount: function(){
+      // ensure Store is updated with current list of lineItems--not needed for mockup
+      // APIUtil.fetchItems();
+      $("select.combobox").combobox();
+    },
 
     render: function () {
       // * Line Item: Select from autosearch/create new

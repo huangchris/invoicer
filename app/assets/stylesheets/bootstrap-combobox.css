@@ -44,3 +44,8 @@
 .control-group.success .combobox-container .caret {
   border-top-color: #468847;
 }
+
+.combobox-container {
+  width: 33%;
+  display: inline-flex;
+}
